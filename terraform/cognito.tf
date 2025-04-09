@@ -15,7 +15,7 @@ resource "aws_cognito_user_pool_domain" "cognito_domain" {
 }
 
 resource "aws_cognito_resource_server" "gateway_scope" {
-  identifier   = aws_api_gateway_stage.web_api_stage.invoke_url
+  identifier   = data.aws_ssm_parameter.fiap_hackathon_api_invoke_url.value
   name         = "fiap-hackathon-gateway-resource"
   user_pool_id = aws_cognito_user_pool.user_pool.id
 
