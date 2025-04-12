@@ -39,9 +39,7 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
   allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["email", "openid", "profile"]
 
-#  prevent_user_existence_errors = "ENABLED"
   supported_identity_providers  = ["COGNITO"]
-#  explicit_auth_flows           = ["ALLOW_USER_PASSWORD_AUTH", "ALLOW_REFRESH_TOKEN_AUTH"]
 
   callback_urls = ["https://fiap-soat-12.github.io/fiap-soat-fiap-hackathon-api/"]
 }
@@ -52,6 +50,6 @@ resource "null_resource" "update_lambda_environment" {
   }
 
   provisioner "local-exec" {
-    command = "aws lambda update-function-configuration --function-name ${var.lambda_authorizer_name} --environment Variables={USER_POOL_ID=${aws_cognito_user_pool.user_pool.id}}"
+    command = "aws lambda update-function-configuration --function-name ${var.lambda_authorizer_name} --environment Variables={USER_POOL_ID=${aws_cognito_user_pool.user_pool.id}} --region ${var.aws_region}"
   }
 }
